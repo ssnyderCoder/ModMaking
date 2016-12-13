@@ -56,6 +56,9 @@ public class TaggedDataProviderTest {
 
 		testSet = dataProv.getDataByTags("round&color_orange|pointy");
 		assertTrue(testSet.size() == 2);
+
+		testSet = dataProv.getDataByTags("color_green");
+		assertTrue(testSet.size() == 0);
 	}
 
 	@Test
@@ -63,6 +66,8 @@ public class TaggedDataProviderTest {
 		dataProv.addTaggedData(new TaggedData<String>(id3, datum3, tags3));
 		TaggedData tg = dataProv.getDataByID(id3);
 		assertNotNull(tg);
+		tg = dataProv.getDataByID("kfruit");
+		assertNull(tg);
 	}
 
 }

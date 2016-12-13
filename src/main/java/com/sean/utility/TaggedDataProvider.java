@@ -49,11 +49,14 @@ public class TaggedDataProvider<T> {
 		if(singleTag.startsWith("!")){ //process NOT tag
 			Set<TaggedData<T>> notSet = new HashSet<TaggedData<T>>();
 			notSet.addAll(allDataByTags.get(ALL).values());
-			notSet.removeAll(allDataByTags.get(singleTag.substring(1)).values());
+			if(allDataByTags.containsKey(singleTag.substring(1)))
+				notSet.removeAll(allDataByTags.get(singleTag.substring(1)).values());
 			return notSet;
 		}
-		else
+		else if(allDataByTags.containsKey(singleTag))
 			return allDataByTags.get(singleTag).values();
+		else
+			return new HashSet<TaggedData<T>>();
 	}
 	
 	public boolean addTaggedData(TaggedData tg){
