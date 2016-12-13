@@ -59,6 +59,14 @@ public class TaggedDataProviderTest {
 
 		testSet = dataProv.getDataByTags("color_green");
 		assertTrue(testSet.size() == 0);
+		
+		try{
+			testSet = null;
+			testSet = dataProv.getDataByTags(null);
+			assertTrue(testSet.size() == 0);
+		}catch(Exception e){
+			assertNull(testSet);
+		}
 	}
 
 	@Test

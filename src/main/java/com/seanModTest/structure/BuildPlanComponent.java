@@ -2,8 +2,8 @@ package com.seanModTest.structure;
 
 import java.util.Random;
 
-import com.seanModTest.build.BuildPlan;
-import com.seanModTest.build.BuildTheme;
+import com.seanModTest.templates.BuildPlan;
+import com.seanModTest.templates.BuildTheme;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
