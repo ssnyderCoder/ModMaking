@@ -40,6 +40,7 @@ public class BuildTheme {
 	}
 	//use block names to designate blocks
 	private final Map<String, ArrayList<BuildBlockData>> typeToBBData= new HashMap<String, ArrayList<BuildBlockData>>();
+	private final Map<String, Float> damagedBlockChances = new HashMap<String, Float>();
 	
 	public BuildTheme() {
 	}
@@ -69,5 +70,28 @@ public class BuildTheme {
 			if(bbdList == null) bbdList = DEFAULT_BUILD_THEME.getTypeToBBData().get(OTHER);
 		}
 		return bbdList.get(rand.nextInt(bbdList.size()));
+	}
+	
+	public boolean addDamageChance(String type, float chance){
+		if(typeToBBData.containsKey(type)){
+			damagedBlockChances.put(type, chance);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean hasDamagedVariant(String type){
+		return damagedBlockChances.containsKey(type);
+	}
+	
+	public BuildBlockData getFineOrDamagedBBD(Random rand, BuildBlockData bbd){
+		if(!damagedBlockChances.containsKey(bbd.getBlockName())) return bbd;
+		else{
+			float damageChance = damagedBlockChances.get(bbd.getBlockName());
+			float f = rand.nextFloat();
+			if(f < damageChance) return getRandomBBData(rand, "d_" + bbd.getBlockName());
+			else return bbd;
+		}
 	}
 }
