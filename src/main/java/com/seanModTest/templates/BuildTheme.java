@@ -25,7 +25,7 @@ public class BuildTheme {
 	//chance of block being damaged determined by BuildTheme
 	
 	private static final BuildTheme DEFAULT_BUILD_THEME = new BuildTheme();
-	{
+	static{
 		DEFAULT_BUILD_THEME.addBBData(PRIMARY, "minecraft:stonebrick");
 		DEFAULT_BUILD_THEME.addBBData(SECONDARY, "minecraft:cobblestone");
 		DEFAULT_BUILD_THEME.addBBData(DAMAGED_PRIMARY, new BuildBlockData("minecraft:stonebrick", 2)); //cracked
@@ -51,8 +51,11 @@ public class BuildTheme {
 			bbdList = new ArrayList<BuildBlockData>();
 			typeToBBData.put(type, bbdList);
 		}
-		bbdList.add(bbd);
-		return true;
+		return bbdList.add(bbd);
+	}
+	
+	public boolean hasBBDataForType(String type){
+		return typeToBBData.containsKey(type);
 	}
 	
 	protected Map<String, ArrayList<BuildBlockData>> getTypeToBBData(){
@@ -73,7 +76,7 @@ public class BuildTheme {
 	}
 	
 	public boolean addDamageChance(String type, float chance){
-		if(typeToBBData.containsKey(type)){
+		if(typeToBBData.containsKey(type) || DEFAULT_BUILD_THEME.hasBBDataForType(type)){
 			damagedBlockChances.put(type, chance);
 			return true;
 		}
@@ -85,12 +88,12 @@ public class BuildTheme {
 		return damagedBlockChances.containsKey(type);
 	}
 	
-	public BuildBlockData getFineOrDamagedBBD(Random rand, BuildBlockData bbd){
-		if(!damagedBlockChances.containsKey(bbd.getBlockName())) return bbd;
+	public BuildBlockData getFineOrDamagedBBD(Random rand, BuildBlockData bbd, String type){
+		if(!damagedBlockChances.containsKey(type)) return bbd;
 		else{
-			float damageChance = damagedBlockChances.get(bbd.getBlockName());
+			float damageChance = damagedBlockChances.get(type);
 			float f = rand.nextFloat();
-			if(f < damageChance) return getRandomBBData(rand, "d_" + bbd.getBlockName());
+			if(f < damageChance) return getRandomBBData(rand, "d_" + type);
 			else return bbd;
 		}
 	}
