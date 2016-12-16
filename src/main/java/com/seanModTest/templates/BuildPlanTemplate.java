@@ -1,14 +1,23 @@
 package com.seanModTest.templates;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.sean.utility.TaggedDataProvider;
+
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class BuildPlanTemplate {
 
 	private final Set<String> tags = new HashSet<String>();
 	private final Set<String> modifiers = new HashSet<String>(); // allow a template to be rotated, stretched, repeated, etc
+	private final List<IBuildCube> buildCubes = new ArrayList<IBuildCube>();
+	private final TaggedDataProvider<BuildPlanTemplate> dataProvider;
 	private final String name;
 	private final int xSize;
 	private final int ySize;
@@ -22,11 +31,12 @@ public class BuildPlanTemplate {
 	 * >> with IDs: id0=theme.primary, id1=theme.secondary 
 	*/
 	
-	public BuildPlanTemplate(String uniqueName, int sizeX, int sizeY, int sizeZ) {
+	public BuildPlanTemplate(String uniqueName, int sizeX, int sizeY, int sizeZ, TaggedDataProvider<BuildPlanTemplate> templateProvider) {
 		name = uniqueName;
 		xSize = sizeX;
 		ySize = sizeY;
 		zSize = sizeZ;
+		dataProvider = templateProvider;
 	}
 	
 	public boolean addTag(String tag){
@@ -49,8 +59,22 @@ public class BuildPlanTemplate {
 		return name;
 	}
 	
-	public BuildPlan generateBuildPlan(TaggedDataProvider<BuildPlanTemplate> dataProvider){
-		return null;
+	public void addBuildCube(IBuildCube bc){
+		buildCubes.add(bc);
+	}
+	/*
+	 * world Current World
+	 * rand Current random number generator
+	 * chunkX, chunkZ Chunk coordinates
+	 * startPos Position that this template is supposed to generate at
+	 */
+	public void generateInChunk(World world, Random rand, int chunkX, int chunkZ, BlockPos startPos, BuildTheme theme){
+		StructureBoundingBox chunkBounds = new StructureBoundingBox(chunkX * 16, chunkZ * 16, chunkX*16 + 15, chunkZ*16 + 15);
+		for(IBuildCube bc : buildCubes){
+			StructureBoundingBox cubeBounds = new StructureBoundingBox(bc.getBounds());
+			cubeBounds.offset(startPos.getX(), startPos.getY(), startPos.getZ());
+			if(chunkBounds.intersectsWith(cubeBounds)) bc.generate(world, rand, chunkX, chunkZ, startPos, theme);
+		}
 	}
 
 }

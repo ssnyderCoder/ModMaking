@@ -21,5 +21,5 @@ public class BuildModifiers {
 	public BuildModifiers() {
 	}
 
-	//later in development, add some applyX() methods that can be called later
+	//later in development, add some static applyX() methods that can be called later
 }
