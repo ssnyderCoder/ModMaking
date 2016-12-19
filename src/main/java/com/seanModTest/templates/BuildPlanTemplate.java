@@ -16,7 +16,7 @@ public class BuildPlanTemplate {
 
 	private final Set<String> tags = new HashSet<String>();
 	private final Set<String> modifiers = new HashSet<String>(); // allow a template to be rotated, stretched, repeated, etc
-	private final List<IBuildCube> buildCubes = new ArrayList<IBuildCube>();
+	private final List<BuildCube> buildCubes = new ArrayList<BuildCube>();
 	private final TaggedDataProvider<BuildPlanTemplate> dataProvider;
 	private final String name;
 	private final int xSize;
@@ -59,7 +59,7 @@ public class BuildPlanTemplate {
 		return name;
 	}
 	
-	public void addBuildCube(IBuildCube bc){
+	public void addBuildCube(BuildCube bc){
 		buildCubes.add(bc);
 	}
 	/*
@@ -67,10 +67,12 @@ public class BuildPlanTemplate {
 	 * rand Current random number generator
 	 * chunkX, chunkZ Chunk coordinates
 	 * startPos Position that this template is supposed to generate at
+	 * theme the Theme to apply
+	 * (Later on also pass rotational, stretch, copy data)
 	 */
 	public void generateInChunk(World world, Random rand, int chunkX, int chunkZ, BlockPos startPos, BuildTheme theme){
 		StructureBoundingBox chunkBounds = new StructureBoundingBox(chunkX * 16, chunkZ * 16, chunkX*16 + 15, chunkZ*16 + 15);
-		for(IBuildCube bc : buildCubes){
+		for(BuildCube bc : buildCubes){
 			StructureBoundingBox cubeBounds = new StructureBoundingBox(bc.getBounds());
 			cubeBounds.offset(startPos.getX(), startPos.getY(), startPos.getZ());
 			if(chunkBounds.intersectsWith(cubeBounds)) bc.generate(world, rand, chunkX, chunkZ, startPos, theme);
