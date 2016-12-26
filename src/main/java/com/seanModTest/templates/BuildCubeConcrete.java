@@ -48,9 +48,13 @@ public class BuildCubeConcrete extends BuildCube {
 				for(int k = 0; k < zSize; k++){
 					BuildBlockData block = blocks[i + j*xSize + k*xSize*ySize];
 					if(block != null){
-						world.setBlockState(startPos.add(i, j, k), block.getBlockState());
+						setBlock(world, startPos, i, j, k, block);
 					}
 				}
+	}
+
+	protected void setBlock(World world, BlockPos startPos, int i, int j, int k, BuildBlockData block) {
+		world.setBlockState(startPos.add(i, j, k), block.getBlockState());
 	}
 
 }

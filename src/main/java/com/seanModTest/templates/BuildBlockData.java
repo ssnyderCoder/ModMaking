@@ -51,6 +51,10 @@ public class BuildBlockData {
 		return tileEntityData;
 	}
 	
+	@Override
+	public String toString(){
+		return blockName + "___" + meta + "___" + tileEntityData;
+	}
 	public IBlockState getBlockState(){
 		Block block = Block.getBlockFromName(blockName);
 		if(block != null){

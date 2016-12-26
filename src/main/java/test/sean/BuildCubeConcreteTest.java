@@ -14,10 +14,12 @@ import com.seanModTest.templates.BuildModifiers;
 import com.seanModTest.templates.BuildPlanTemplate;
 import com.seanModTest.templates.BuildTheme;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BuildCubeConcreteTest {
 
@@ -36,7 +38,7 @@ public class BuildCubeConcreteTest {
 	@Before
 	public void setUp() throws Exception {
 		bounds = new StructureBoundingBox(0,0,0,10,10,10); //bounds must start from 0,0,0
-		cube = new BuildCubeConcrete(unusedTDP, bounds);
+		cube = new TestableBuildCubeConcrete(unusedTDP, bounds);
 	}
 
 	@Test
@@ -67,12 +69,12 @@ public class BuildCubeConcreteTest {
 		assertTrue(cube.setBlockData(0,3,0, block1));
 		
 		cube.generate(mWorld, RAND, CHUNK_X, CHUNK_Z, START_POS, THEME, MODIFIERS);
-		
-		//WARNING: Not working due to block Names being set by Forge, apparently at runtime.
-		//Block registry is empty, will have to create Mock version of it
-		assertTrue(mWorld.getBlockState(START_POS).getBlock().getUnlocalizedName().substring(5)
-				== cube.getBlockData(0, 0, 0).getBlockName());
-		
+
+		assertTrue(mWorld.getBlockData(START_POS).getBlockName() == cube.getBlockData(0, 0, 0).getBlockName());
+		assertTrue(mWorld.getBlockData(START_POS.add(0, 1, 0)).getBlockName() == cube.getBlockData(0, 0, 0).getBlockName());
+		assertTrue(mWorld.getBlockData(START_POS.add(0, 2, 0)).getBlockName() == cube.getBlockData(0, 0, 0).getBlockName());
+		assertTrue(mWorld.getBlockData(START_POS.add(0, 3, 0)).getBlockName() == cube.getBlockData(0, 0, 0).getBlockName());
+		assertTrue(mWorld.getBlockData(START_POS.add(0, 4, 0)) == null);
 		//test tile entities too
 	}
 	

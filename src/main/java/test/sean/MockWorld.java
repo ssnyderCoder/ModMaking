@@ -3,6 +3,8 @@ package test.sean;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.seanModTest.templates.BuildBlockData;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +17,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 public class MockWorld extends World {
 	
-	private final Map<Long, IBlockState> blocks = new HashMap<Long, IBlockState>();
+	private final Map<Long, BuildBlockData> blocks = new HashMap<Long, BuildBlockData>();
 
 	public MockWorld() {
 		super(null, null, new WorldProviderSurface(), null, false);
@@ -33,14 +35,12 @@ public class MockWorld extends World {
 		return false;
 	}
 	
-	@Override
-	public boolean setBlockState(BlockPos pos, IBlockState state){
+	public boolean setBlockData(BlockPos pos, BuildBlockData state){
 		blocks.put(pos.toLong(), state);
 		return true;
 	}
 	
-	@Override
-	public IBlockState getBlockState(BlockPos pos){
+	public BuildBlockData getBlockData(BlockPos pos){
 		return blocks.get(pos.toLong());
 	}
 	
