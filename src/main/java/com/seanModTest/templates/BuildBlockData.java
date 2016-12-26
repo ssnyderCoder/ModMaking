@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class BuildBlockData {
 
-	public static final String DEFAULT_BLOCK_NAME = "minecraft:stone";
+	public static final String DEFAULT_BLOCK_NAME = "stone";
 	public static final int DEFAULT_META = 0;
 	public static final String[] DEFAULT_TILE_DATA = {""};
 	

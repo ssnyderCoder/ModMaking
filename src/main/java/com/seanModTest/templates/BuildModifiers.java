@@ -1,5 +1,8 @@
 package com.seanModTest.templates;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class BuildModifiers {
 
 	/* Build can be rotated along the y axis*/
@@ -17,8 +20,17 @@ public class BuildModifiers {
 	/* Build can be repeated along the z axis */
 	public static final String CAN_REPEAT_Z = "can_repeat_z";
 	
+	private final Set<String> modifiers = new HashSet<String>();
 	
 	public BuildModifiers() {
+	}
+	
+	public boolean addModifier(String mod){
+		return modifiers.add(mod);
+	}
+	
+	public Set<String> getModifiers(){
+		return modifiers;
 	}
 
 	//later in development, add some static applyX() methods that can be called later

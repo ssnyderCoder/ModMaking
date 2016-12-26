@@ -16,12 +16,12 @@ public class BuildThemeTest {
 	private final String TEST1 = "test1";
 	private final String TEST2 = "test2";
 	private final String TEST3 = "d_test1";
-	private final String TEST1_BLOCK = "minecraft.stone";
-	private final String TEST3_BLOCK = "minecraft.brick";
-	private final BuildBlockData TEST2_BUILD_DATA = new BuildBlockData("minecraft.cobblestone");
+	private final String TEST1_BLOCK = "stone";
+	private final String TEST3_BLOCK = "brick";
+	private final BuildBlockData TEST2_BUILD_DATA = new BuildBlockData("cobblestone");
 
-	private final String DEFAULT_PRIMARY_BLOCK = "minecraft:stonebrick";
-	private final String DEFAULT_OTHER_BLOCK = "minecraft:dirt";
+	private final String DEFAULT_PRIMARY_BLOCK = "stonebrick";
+	private final String DEFAULT_OTHER_BLOCK = "dirt";
 	@Before
 	public void setUp() throws Exception {
 		testTheme.addBBData(TEST1, TEST1_BLOCK);

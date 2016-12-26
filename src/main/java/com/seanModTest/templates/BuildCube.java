@@ -10,8 +10,8 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public abstract class BuildCube {
 
-	private final TaggedDataProvider<BuildPlanTemplate> dataProvider;
-	private final StructureBoundingBox bounds;
+	protected final TaggedDataProvider<BuildPlanTemplate> dataProvider;
+	protected final StructureBoundingBox bounds; //bounds should map from 0,0,0 to sizeX, sizeY, sizeZ
 	
 	public BuildCube(TaggedDataProvider<BuildPlanTemplate> tagDataProvider, StructureBoundingBox theBounds) {
 		// TODO Auto-generated constructor stub
@@ -19,7 +19,7 @@ public abstract class BuildCube {
 		bounds = theBounds;
 	}
 
-	public abstract void generate(World world, Random rand, int chunkX, int chunkZ, BlockPos startPos, BuildTheme theme);
+	public abstract void generate(World world, Random rand, int chunkX, int chunkZ, BlockPos startPos, BuildTheme theme, BuildModifiers modifiers);
 	
 	public StructureBoundingBox getBounds(){
 		return bounds;

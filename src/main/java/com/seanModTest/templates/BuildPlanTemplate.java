@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
-public class BuildPlanTemplate {
+public final class BuildPlanTemplate {
 
 	private final Set<String> tags = new HashSet<String>();
 	private final Set<String> modifiers = new HashSet<String>(); // allow a template to be rotated, stretched, repeated, etc
@@ -64,19 +64,36 @@ public class BuildPlanTemplate {
 	}
 	/*
 	 * world Current World
-	 * rand Current random number generator
+	 * rand Current random number generator, passed in by structure gen code, unique to structure in some way
 	 * chunkX, chunkZ Chunk coordinates
 	 * startPos Position that this template is supposed to generate at
 	 * theme the Theme to apply
-	 * (Later on also pass rotational, stretch, copy data)
+	 * modifiers the Modifiers to apply
 	 */
-	public void generateInChunk(World world, Random rand, int chunkX, int chunkZ, BlockPos startPos, BuildTheme theme){
+	public void generateInChunk(World world, Random rand, int chunkX, int chunkZ, BlockPos startPos, BuildTheme theme, BuildModifiers modifiers){
 		StructureBoundingBox chunkBounds = new StructureBoundingBox(chunkX * 16, chunkZ * 16, chunkX*16 + 15, chunkZ*16 + 15);
+		int randIndex = 0;
+		long randLong = rand.nextLong();
 		for(BuildCube bc : buildCubes){
+			//rotate all bounding boxes if rotation info specified
+			rand.setSeed(randLong * randIndex);
 			StructureBoundingBox cubeBounds = new StructureBoundingBox(bc.getBounds());
 			cubeBounds.offset(startPos.getX(), startPos.getY(), startPos.getZ());
-			if(chunkBounds.intersectsWith(cubeBounds)) bc.generate(world, rand, chunkX, chunkZ, startPos, theme);
+			if(chunkBounds.intersectsWith(cubeBounds)) bc.generate(world, rand, chunkX, chunkZ, startPos, theme, modifiers);
+			randIndex++;
 		}
+	}
+
+	public int getxSize() {
+		return xSize;
+	}
+
+	public int getySize() {
+		return ySize;
+	}
+
+	public int getzSize() {
+		return zSize;
 	}
 
 }
