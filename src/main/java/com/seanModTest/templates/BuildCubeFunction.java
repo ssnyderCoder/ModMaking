@@ -10,7 +10,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class BuildCubeFunction extends BuildCube {
 
-	public BuildCubeFunction(TaggedDataProvider<BuildPlanTemplate> tagDataProvider, StructureBoundingBox theBounds) {
+	public BuildCubeFunction(TaggedDataProvider<BuildPlanTemplate> tagDataProvider, StructureBoundingBox theBounds) throws Exception {
 		super(tagDataProvider, theBounds);
 		// TODO Auto-generated constructor stub
 	}

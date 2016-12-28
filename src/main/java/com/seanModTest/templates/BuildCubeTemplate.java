@@ -16,7 +16,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 public class BuildCubeTemplate extends BuildCube {
 	private final String requirements;
 
-	public BuildCubeTemplate(TaggedDataProvider<BuildPlanTemplate> tagDataProvider, StructureBoundingBox theBounds, String tagRequirements) {
+	public BuildCubeTemplate(TaggedDataProvider<BuildPlanTemplate> tagDataProvider, StructureBoundingBox theBounds, String tagRequirements) throws Exception {
 		super(tagDataProvider, theBounds);
 		requirements = tagRequirements;
 	}

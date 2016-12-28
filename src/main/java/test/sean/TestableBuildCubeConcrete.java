@@ -13,12 +13,12 @@ public class TestableBuildCubeConcrete extends BuildCubeConcrete {
 
 	//class created because blocks, items, etc are not registered until runtime
 	public TestableBuildCubeConcrete(TaggedDataProvider<BuildPlanTemplate> tagDataProvider,
-			StructureBoundingBox theBounds) {
+			StructureBoundingBox theBounds) throws Exception {
 		super(tagDataProvider, theBounds);
 	}
 
 	@Override
-	protected void setBlock(World world, BlockPos startPos, int i, int j, int k, BuildBlockData block) {
-		((MockWorld)world).setBlockData(startPos.add(i, j, k), block);
+	protected void setBlock(World world, BlockPos placePos, BuildBlockData block) {
+		((MockWorld)world).setBlockData(placePos, block);
 	}
 }
