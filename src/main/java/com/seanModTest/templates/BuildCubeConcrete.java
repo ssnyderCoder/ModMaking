@@ -5,6 +5,12 @@ import java.util.Random;
 
 import com.sean.utility.TaggedDataProvider;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -36,7 +42,6 @@ public class BuildCubeConcrete extends BuildCube {
 			blocks[i] = null;
 		}
 	}
-	//TODO Test adding block data, generating, and generating with rotation/stretch/repeat
 
 	@Override
 	public void generate(World world, Random rand, int chunkX, int chunkZ, BlockPos startPos, BuildTheme theme,
@@ -71,8 +76,27 @@ public class BuildCubeConcrete extends BuildCube {
 		return !(placeChunkX == chunkX && placeChunkZ == chunkZ);
 	}
 
-	protected void setBlock(World world, BlockPos placePos, BuildBlockData block) {
-		world.setBlockState(placePos, block.getBlockState());
+	//NOTE: Untested Code - Beware! Can only be used at runtime.
+	protected void setBlock(World world, BlockPos placePos, BuildBlockData blockData){
+		IBlockState blockState = blockData.getBlockState();
+		world.setBlockState(placePos, blockState);
+		Block block = blockState.getBlock();
+		if(block.hasTileEntity(blockState)){
+			try {
+				NBTTagCompound nbttagcompound = JsonToNBT.getTagFromJson(blockData.getTileEntityJSON());
+				TileEntity tileentity = world.getTileEntity(placePos);
+
+                if (tileentity != null)
+                {
+                    nbttagcompound.setInteger("x", placePos.getX());
+                    nbttagcompound.setInteger("y", placePos.getY());
+                    nbttagcompound.setInteger("z", placePos.getZ());
+                    tileentity.readFromNBT(nbttagcompound);
+                }
+			} catch (NBTException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

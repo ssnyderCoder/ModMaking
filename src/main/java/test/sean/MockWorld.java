@@ -7,6 +7,7 @@ import com.seanModTest.templates.BuildBlockData;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.profiler.Profiler;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
@@ -18,6 +19,7 @@ import net.minecraft.world.storage.WorldInfo;
 public class MockWorld extends World {
 	
 	private final Map<Long, BuildBlockData> blocks = new HashMap<Long, BuildBlockData>();
+	private final Map<Long, TileEntity> tileEntities = new HashMap<Long, TileEntity>();
 
 	public MockWorld() {
 		super(null, null, new WorldProviderSurface(), null, false);
@@ -42,6 +44,16 @@ public class MockWorld extends World {
 	
 	public BuildBlockData getBlockData(BlockPos pos){
 		return blocks.get(pos.toLong());
+	}
+	
+	@Override
+	public void setTileEntity(BlockPos pos, TileEntity tileEntityIn){
+		tileEntities.put(pos.toLong(), tileEntityIn);
+	}
+	
+	@Override
+	public TileEntity getTileEntity(BlockPos pos) {
+		return tileEntities.get(pos.toLong());
 	}
 	
 	public void clearBlocks(){

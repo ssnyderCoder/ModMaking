@@ -9,34 +9,34 @@ public class BuildBlockData {
 
 	public static final String DEFAULT_BLOCK_NAME = "stone";
 	public static final int DEFAULT_META = 0;
-	public static final String[] DEFAULT_TILE_DATA = {""};
+	public static final String DEFAULT_TILE_JSON = "";
 	
 	//perhaps change to use specific data tags instead of meta
 	private final String blockName;
 	private final int meta;
-	private final String[] tileEntityData;
-	public BuildBlockData(String uniqueBlockName, int metaValue, String[] tileData) {
+	private final String tileEntityJSON;
+	public BuildBlockData(String uniqueBlockName, int metaValue, String tileJSON) {
 		blockName = uniqueBlockName;
 		meta = metaValue;
-		tileEntityData = tileData;
+		tileEntityJSON = tileJSON;
 	}
 	
 	public BuildBlockData(String uniqueBlockName, int metaValue) {
 		blockName = uniqueBlockName;
 		meta = metaValue;
-		tileEntityData = DEFAULT_TILE_DATA;
+		tileEntityJSON = DEFAULT_TILE_JSON;
 	}
 	
 	public BuildBlockData(String uniqueBlockName) {
 		blockName = uniqueBlockName;
 		meta = DEFAULT_META;
-		tileEntityData = DEFAULT_TILE_DATA;
+		tileEntityJSON = DEFAULT_TILE_JSON;
 	}
 	
 	public BuildBlockData() {
 		blockName = DEFAULT_BLOCK_NAME;
 		meta = DEFAULT_META;
-		tileEntityData = DEFAULT_TILE_DATA;
+		tileEntityJSON = DEFAULT_TILE_JSON;
 	}
 	
 	public String getBlockName() {
@@ -47,16 +47,18 @@ public class BuildBlockData {
 		return meta;
 	}
 	
-	public String[] getUnprocessedTileEntityData(){
-		return tileEntityData;
+	public String getTileEntityJSON(){
+		return tileEntityJSON;
 	}
 	
 	@Override
 	public String toString(){
-		return blockName + "___" + meta + "___" + tileEntityData;
+		return blockName + "___" + meta + "___" + tileEntityJSON;
 	}
+	
 	public IBlockState getBlockState(){
-		Block block = Block.getBlockFromName(blockName);
+		ResourceLocation resourcelocation = new ResourceLocation(blockName);
+		Block block = (Block)Block.REGISTRY.getObject(resourcelocation);
 		if(block != null){
 			return block.getStateFromMeta(meta);
 		}
